@@ -1,0 +1,59 @@
+name: Droidstr test build
+
+# Builds a Droidstr debug APK and keeps it at a fixed download link:
+#   https://github.com/<owner>/<repo>/releases/download/latest/droidstr-debug.apk
+# Amethyst's own workflows (build.yml, create-release.yml) are left as they are.
+
+on:
+  push:
+    branches: [main, claude/quirky-knuth-p3moiw]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: droidstr-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Free disk space
+        run: sudo rm -rf /usr/share/dotnet /opt/ghc /usr/local/share/boost /usr/local/lib/node_modules "$AGENT_TOOLSDIRECTORY"
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v6.0.0
+        with:
+          distribution: 'temurin'
+          java-version: 21
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v6
+
+      - name: Paper backup tests
+        run: ./gradlew :commons:jvmTest --tests "com.vitorpamplona.amethyst.commons.keystorage.*"
+
+      - name: Build F-Droid debug APK
+        run: ./gradlew :amethyst:assembleFdroidDebug -PdisableAbiSplits=true -Pamethyst.skipMapping=true
+
+      - name: Publish APK to the "latest" release
+        if: github.event_name != 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          APK=$(find amethyst/build/outputs/apk/fdroid/debug -name '*.apk' | head -n 1)
+          test -n "$APK"
+          cp "$APK" droidstr-debug.apk
+          NOTES="Droidstr test build #${{ github.run_number }} from ${{ github.ref_name }} @ ${GITHUB_SHA::7}. Debug build signed with the public test key; not for production use. Based on Amethyst (MIT)."
+          if gh release view latest >/dev/null 2>&1; then
+            gh release edit latest --title "Droidstr latest test build (#${{ github.run_number }})" --notes "$NOTES"
+          else
+            gh release create latest --prerelease --target "$GITHUB_SHA" --title "Droidstr latest test build (#${{ github.run_number }})" --notes "$NOTES"
+          fi
+          gh release upload latest droidstr-debug.apk --clobber
