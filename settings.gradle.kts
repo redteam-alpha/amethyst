@@ -28,7 +28,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Amethyst"
+rootProject.name = "Droidstr"
 include(":amethyst")
 include(":nappletHost")
 include(":benchmark")

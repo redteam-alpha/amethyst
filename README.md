@@ -1,3 +1,17 @@
+# Droidstr
+
+**Droidstr is a fork of [Amethyst](https://github.com/vitorpamplona/amethyst)** by Vitor Pamplona and contributors,
+released under the MIT license (see [LICENSE](LICENSE)). It adds a handwritten "paper backup" of your secret key
+(large numbered groups plus a check that your copy is right) to the key backup screen, and ships under its own name
+and package id (`com.redteamalpha.droidstr`) so it installs alongside Amethyst.
+
+**[⬇ Download the latest Droidstr test APK](https://github.com/redteam-alpha/amethyst/releases/download/latest/droidstr-debug.apk)**
+(debug build, rebuilt on every push; signed with a public test key, so it's for testing only).
+
+The original Amethyst README follows.
+
+---
+
  <div align="center">
 
 <a href="https://amethyst.social">

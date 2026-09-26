@@ -9,7 +9,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     alias(libs.plugins.androidApplication)
-    alias(libs.plugins.googleServices)
+    // Droidstr: disabled — it fails once the package id changes (SKILL.md step 4).
+    // alias(libs.plugins.googleServices)
     alias(libs.plugins.jetbrainsComposeCompiler)
     alias(libs.plugins.serialization)
     alias(libs.plugins.googleKsp)
@@ -123,7 +124,8 @@ android {
             ?: error("tools/arti-build/ANDROID_NDK_VERSION is missing or empty — it pins the NDK that strips src/main/jniLibs")
 
     defaultConfig {
-        applicationId = "com.vitorpamplona.amethyst"
+        // Droidstr: its own package id so it installs alongside Amethyst.
+        applicationId = "com.redteamalpha.droidstr"
         minSdk =
             libs.versions.android.minSdk
                 .get()
@@ -257,6 +259,17 @@ android {
             .gradleProperty("amethyst.skipMapping")
             .map { it.toBoolean() }
             .getOrElse(false)
+
+    signingConfigs {
+        // Droidstr: a shared test key committed to the repo so every CI debug build installs over
+        // the previous one and keeps the app's data. It is public: never use it to sign a release.
+        getByName("debug") {
+            storeFile = file("droidstr-debug.keystore")
+            storePassword = "android"
+            keyAlias = "androiddebugkey"
+            keyPassword = "android"
+        }
+    }
 
     buildTypes {
         getByName("release") {
