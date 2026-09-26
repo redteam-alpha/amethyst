@@ -224,7 +224,7 @@ class UiSharedPreferences(
                 val featureSet = preferences[UI_FEATURE_SET]?.let { FeatureSetType.valueOf(it) } ?: FeatureSetType.SIMPLIFIED
 
                 UiSettings(
-                    theme = preferences[UI_THEME]?.let { ThemeType.valueOf(it) } ?: ThemeType.SYSTEM,
+                    theme = preferences[UI_THEME]?.let { ThemeType.valueOf(it) } ?: ThemeType.DARK,
                     preferredLanguage = preferences[UI_LANGUAGE]?.ifBlank { null },
                     automaticallyShowImages = preferences[UI_SHOW_IMAGES]?.let { ConnectivityType.valueOf(it) } ?: ConnectivityType.ALWAYS,
                     automaticallyStartPlayback = preferences[UI_START_PLAYBACK]?.let { ConnectivityType.valueOf(it) } ?: ConnectivityType.ALWAYS,
@@ -251,7 +251,7 @@ class UiSharedPreferences(
                     dontShowOnchainPublicWarning = preferences[UI_DONT_SHOW_ONCHAIN_PUBLIC_WARNING] ?: false,
                     suggestWorkoutsFromHealthConnect =
                         preferences[UI_SUGGEST_WORKOUTS_FROM_HEALTH_CONNECT]?.let { BooleanType.valueOf(it) } ?: BooleanType.ALWAYS,
-                    accentColor = preferences[UI_ACCENT_COLOR]?.let { AccentColorType.valueOf(it) } ?: AccentColorType.PURPLE,
+                    accentColor = preferences[UI_ACCENT_COLOR]?.let { AccentColorType.valueOf(it) } ?: AccentColorType.DROIDSTR,
                     fontFamily = preferences[UI_FONT_FAMILY]?.let { FontFamilyType.valueOf(it) } ?: FontFamilyType.SYSTEM,
                     fontSize = preferences[UI_FONT_SIZE]?.let { FontSizeType.valueOf(it) } ?: FontSizeType.NORMAL,
                     composeSignature = preferences[UI_COMPOSE_SIGNATURE] ?: "",

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Droidstr: themed (monochrome) launcher icon, same "D" mark. -->
+<!-- Droidstr: themed (monochrome) launcher icon, same angular "D" mark. -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
@@ -8,5 +8,5 @@
     <path
         android:fillColor="#FFFFFF"
         android:fillType="evenOdd"
-        android:pathData="M40,32L54,32A22,22 0,0 1,54,76L40,76Z M48,40L48,68L54,68A14,14 0,0 0,54,40Z" />
+        android:pathData="M37,30H57L71,44V64L57,78H37Z M46,39V69H54L62,61V47L54,39Z" />
 </vector>

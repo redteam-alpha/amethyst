@@ -26,7 +26,7 @@ import kotlinx.serialization.Serializable
 @Stable
 @Serializable
 data class UiSettings(
-    val theme: ThemeType = ThemeType.SYSTEM,
+    val theme: ThemeType = ThemeType.DARK,
     val preferredLanguage: String? = null,
     val automaticallyShowImages: ConnectivityType = ConnectivityType.ALWAYS,
     val automaticallyStartPlayback: ConnectivityType = ConnectivityType.ALWAYS,
@@ -50,7 +50,7 @@ data class UiSettings(
     val showProfileFollowersFeed: Boolean = true,
     val dontShowOnchainPublicWarning: Boolean = false,
     val suggestWorkoutsFromHealthConnect: BooleanType = BooleanType.ALWAYS,
-    val accentColor: AccentColorType = AccentColorType.PURPLE,
+    val accentColor: AccentColorType = AccentColorType.DROIDSTR,
     val fontFamily: FontFamilyType = FontFamilyType.SYSTEM,
     val fontSize: FontSizeType = FontSizeType.NORMAL,
     val composeSignature: String = "",
@@ -91,6 +91,9 @@ enum class AccentColorType(
     ORANGE(3),
     RED(4),
     PINK(5),
+
+    // Droidstr: dark red and gold, with warm near-black surfaces. The default.
+    DROIDSTR(6),
 }
 
 fun parseAccentColorType(screenCode: Int): AccentColorType =
@@ -101,7 +104,8 @@ fun parseAccentColorType(screenCode: Int): AccentColorType =
         AccentColorType.ORANGE.screenCode -> AccentColorType.ORANGE
         AccentColorType.RED.screenCode -> AccentColorType.RED
         AccentColorType.PINK.screenCode -> AccentColorType.PINK
-        else -> AccentColorType.PURPLE
+        AccentColorType.DROIDSTR.screenCode -> AccentColorType.DROIDSTR
+        else -> AccentColorType.DROIDSTR
     }
 
 enum class FontFamilyType(

@@ -40,6 +40,13 @@ val AccentRedDark = Color(0xFFEF9A9A)
 val AccentRedLight = Color(0xFFC62828)
 val AccentPinkDark = Color(0xFFF48FB1)
 val AccentPinkLight = Color(0xFFAD1457)
+
+// Droidstr: gold leads on the dark theme (buttons, links) with dark red as the second accent; the
+// light theme swaps them, as gold on a light background is too faint to read.
+val DroidstrGold = Color(0xFFE6B450)
+val DroidstrGoldDeep = Color(0xFF8A6415)
+val DroidstrCrimson = Color(0xFFE5404F)
+val DroidstrCrimsonDeep = Color(0xFF9B1B30)
 val BitcoinOrange = Color(0xFFF7931A)
 val RoyalBlue = Color(0xFF4169E1)
 

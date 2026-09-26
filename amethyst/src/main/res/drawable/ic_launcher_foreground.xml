@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Droidstr placeholder mark: a "D" inside the adaptive-icon safe zone. -->
+<!-- Droidstr mark: an angular gold "D" with a dark red, offset "glitch" copy and two scan bars. -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
     <path
-        android:fillColor="#FFFFFF"
+        android:fillColor="#B0122A"
         android:fillType="evenOdd"
-        android:pathData="M40,32L54,32A22,22 0,0 1,54,76L40,76Z M48,40L48,68L54,68A14,14 0,0 0,54,40Z" />
+        android:pathData="M34.5,31H54.5L68.5,45V65L54.5,79H34.5Z M43.5,40V70H51.5L59.5,62V48L51.5,40Z" />
+    <path
+        android:fillColor="#E6B450"
+        android:fillType="evenOdd"
+        android:pathData="M37,30H57L71,44V64L57,78H37Z M46,39V69H54L62,61V47L54,39Z" />
+    <path
+        android:fillColor="#B0122A"
+        android:pathData="M29,49H42V52H29Z" />
+    <path
+        android:fillColor="#E6B450"
+        android:pathData="M66,59H79V61H66Z" />
 </vector>

@@ -27,7 +27,7 @@ import kotlinx.coroutines.flow.combine
 
 @Stable
 class UiSettingsFlow(
-    val theme: MutableStateFlow<ThemeType> = MutableStateFlow(ThemeType.SYSTEM),
+    val theme: MutableStateFlow<ThemeType> = MutableStateFlow(ThemeType.DARK),
     val preferredLanguage: MutableStateFlow<String?> = MutableStateFlow(null),
     val automaticallyShowImages: MutableStateFlow<ConnectivityType> = MutableStateFlow(ConnectivityType.ALWAYS),
     val automaticallyStartPlayback: MutableStateFlow<ConnectivityType> = MutableStateFlow(ConnectivityType.ALWAYS),
@@ -51,7 +51,7 @@ class UiSettingsFlow(
     val showProfileFollowersFeed: MutableStateFlow<Boolean> = MutableStateFlow(true),
     val dontShowOnchainPublicWarning: MutableStateFlow<Boolean> = MutableStateFlow(false),
     val suggestWorkoutsFromHealthConnect: MutableStateFlow<BooleanType> = MutableStateFlow(BooleanType.ALWAYS),
-    val accentColor: MutableStateFlow<AccentColorType> = MutableStateFlow(AccentColorType.PURPLE),
+    val accentColor: MutableStateFlow<AccentColorType> = MutableStateFlow(AccentColorType.DROIDSTR),
     val fontFamily: MutableStateFlow<FontFamilyType> = MutableStateFlow(FontFamilyType.SYSTEM),
     val fontSize: MutableStateFlow<FontSizeType> = MutableStateFlow(FontSizeType.NORMAL),
     val composeSignature: MutableStateFlow<String> = MutableStateFlow(""),

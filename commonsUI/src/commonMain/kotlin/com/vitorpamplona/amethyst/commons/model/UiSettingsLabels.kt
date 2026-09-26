@@ -22,6 +22,7 @@ package com.vitorpamplona.amethyst.commons.model
 
 import com.vitorpamplona.amethyst.commons.resources.Res
 import com.vitorpamplona.amethyst.commons.resources.accent_color_blue
+import com.vitorpamplona.amethyst.commons.resources.accent_color_droidstr
 import com.vitorpamplona.amethyst.commons.resources.accent_color_green
 import com.vitorpamplona.amethyst.commons.resources.accent_color_orange
 import com.vitorpamplona.amethyst.commons.resources.accent_color_pink
@@ -71,6 +72,7 @@ val AccentColorType.resourceId: StringResource
             AccentColorType.ORANGE -> Res.string.accent_color_orange
             AccentColorType.RED -> Res.string.accent_color_red
             AccentColorType.PINK -> Res.string.accent_color_pink
+            AccentColorType.DROIDSTR -> Res.string.accent_color_droidstr
         }
 
 val FontFamilyType.resourceId: StringResource

@@ -63,6 +63,10 @@ import com.vitorpamplona.amethyst.commons.ui.theme.AccentPinkDark
 import com.vitorpamplona.amethyst.commons.ui.theme.AccentPinkLight
 import com.vitorpamplona.amethyst.commons.ui.theme.AccentRedDark
 import com.vitorpamplona.amethyst.commons.ui.theme.AccentRedLight
+import com.vitorpamplona.amethyst.commons.ui.theme.DroidstrCrimson
+import com.vitorpamplona.amethyst.commons.ui.theme.DroidstrCrimsonDeep
+import com.vitorpamplona.amethyst.commons.ui.theme.DroidstrGold
+import com.vitorpamplona.amethyst.commons.ui.theme.DroidstrGoldDeep
 import com.vitorpamplona.amethyst.commons.ui.theme.Purple200
 import com.vitorpamplona.amethyst.commons.ui.theme.Purple500
 import com.vitorpamplona.amethyst.commons.ui.theme.Shapes
@@ -88,12 +92,18 @@ private fun accentPrimary(
         AccentColorType.ORANGE -> if (dark) AccentOrangeDark else AccentOrangeLight
         AccentColorType.RED -> if (dark) AccentRedDark else AccentRedLight
         AccentColorType.PINK -> if (dark) AccentPinkDark else AccentPinkLight
+        AccentColorType.DROIDSTR -> if (dark) DroidstrGold else DroidstrCrimsonDeep
     }
 
 private fun accentSecondary(
     accent: AccentColorType,
     dark: Boolean,
-): Color = if (accent == AccentColorType.PURPLE) Teal200 else accentPrimary(accent, dark)
+): Color =
+    when (accent) {
+        AccentColorType.PURPLE -> Teal200
+        AccentColorType.DROIDSTR -> if (dark) DroidstrCrimson else DroidstrGoldDeep
+        else -> accentPrimary(accent, dark)
+    }
 
 // Representative colour for an accent option, used by the Settings accent-picker swatches — the
 // same primary the theme would apply for the given light/dark mode, so the swatch previews the
@@ -105,13 +115,53 @@ private fun darkColors(accent: AccentColorType): ColorScheme =
         primary = accentPrimary(accent, dark = true),
         secondary = accentSecondary(accent, dark = true),
         inversePrimary = accentPrimary(accent, dark = false),
-    )
+    ).let { if (accent == AccentColorType.DROIDSTR) it.withDroidstrDarkSurfaces() else it }
 
 private fun lightColors(accent: AccentColorType): ColorScheme =
     amethystLightColorScheme(
         primary = accentPrimary(accent, dark = false),
         secondary = accentSecondary(accent, dark = false),
         inversePrimary = accentPrimary(accent, dark = true),
+    ).let { if (accent == AccentColorType.DROIDSTR) it.withDroidstrLightSurfaces() else it }
+
+// Droidstr's surfaces lean warm: a red-black ramp on the dark theme and parchment on the light one,
+// at the same lightness steps as the neutral ramps, so contrast stays as it was.
+private fun ColorScheme.withDroidstrDarkSurfaces(): ColorScheme =
+    copy(
+        background = Color(0xFF0B0406),
+        onBackground = Color(0xFFEFE6DD),
+        surface = Color(0xFF0B0406),
+        onSurface = Color(0xFFEFE6DD),
+        surfaceVariant = Color(0xFF231013),
+        onSurfaceVariant = Color(0xFFD8C3B6),
+        surfaceDim = Color(0xFF0B0406),
+        surfaceBright = Color(0xFF3B1C20),
+        surfaceContainerLowest = Color(0xFF130709),
+        surfaceContainerLow = Color(0xFF190A0D),
+        surfaceContainer = Color(0xFF231013),
+        surfaceContainerHigh = Color(0xFF2C1518),
+        surfaceContainerHighest = Color(0xFF3B1C20),
+        outline = Color(0xFF9A7F72),
+        outlineVariant = Color(0xFF4A2A2C),
+    )
+
+private fun ColorScheme.withDroidstrLightSurfaces(): ColorScheme =
+    copy(
+        background = Color(0xFFFFF9F2),
+        onBackground = Color(0xFF1F1512),
+        surface = Color(0xFFFFF9F2),
+        onSurface = Color(0xFF1F1512),
+        surfaceVariant = Color(0xFFFBF1E6),
+        onSurfaceVariant = Color(0xFF4E4038),
+        surfaceDim = Color(0xFFE4D8CC),
+        surfaceBright = Color(0xFFFFF9F2),
+        surfaceContainerLowest = Color(0xFFFFFFFF),
+        surfaceContainerLow = Color(0xFFFCF3EA),
+        surfaceContainer = Color(0xFFF7EDE2),
+        surfaceContainerHigh = Color(0xFFF1E6DA),
+        surfaceContainerHighest = Color(0xFFEBDFD2),
+        outline = Color(0xFF85736A),
+        outlineVariant = Color(0xFFD6C6B8),
     )
 
 val chartLightColors =
@@ -158,7 +208,7 @@ fun AmethystTheme(content: @Composable () -> Unit) {
 @Composable
 fun AmethystTheme(
     prefTheme: ThemeType,
-    accentColor: AccentColorType = AccentColorType.PURPLE,
+    accentColor: AccentColorType = AccentColorType.DROIDSTR,
     fontFamily: FontFamilyType = FontFamilyType.SYSTEM,
     fontSize: FontSizeType = FontSizeType.NORMAL,
     displaySettings: DisplaySettings = DisplaySettings(),

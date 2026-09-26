@@ -21,7 +21,6 @@
 package com.vitorpamplona.amethyst.ui.screen.loggedOff.signup
 
 import android.widget.Toast
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,7 +28,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -41,7 +39,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -51,11 +48,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.vitorpamplona.amethyst.Amethyst
 import com.vitorpamplona.amethyst.commons.account.ui.signup.LoginButton
 import com.vitorpamplona.amethyst.commons.account.ui.signup.SignUpButton
-import com.vitorpamplona.amethyst.commons.hashtags.Amethyst
-import com.vitorpamplona.amethyst.commons.hashtags.CustomHashTagIcons
 import com.vitorpamplona.amethyst.commons.resources.Res
 import com.vitorpamplona.amethyst.commons.resources.already_have_an_account
-import com.vitorpamplona.amethyst.commons.resources.app_logo
 import com.vitorpamplona.amethyst.commons.resources.how_should_we_call_you
 import com.vitorpamplona.amethyst.commons.resources.my_awesome_name
 import com.vitorpamplona.amethyst.commons.resources.welcome
@@ -70,6 +64,7 @@ import com.vitorpamplona.amethyst.ui.screen.AccountSessionManager
 import com.vitorpamplona.amethyst.ui.screen.loggedOff.TorSettingsSetup
 import com.vitorpamplona.amethyst.ui.screen.loggedOff.legal.TermsGate
 import com.vitorpamplona.amethyst.ui.screen.loggedOff.login.LoginErrorManager
+import com.vitorpamplona.amethyst.ui.theme.DroidstrLogo
 import com.vitorpamplona.amethyst.ui.tor.TorSettingsFlow
 import kotlinx.coroutines.launch
 
@@ -116,12 +111,7 @@ fun SignUpPage(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Image(
-            imageVector = CustomHashTagIcons.Amethyst,
-            contentDescription = stringRes(Res.string.app_logo),
-            modifier = Modifier.size(150.dp),
-            contentScale = ContentScale.Inside,
-        )
+        DroidstrLogo()
 
         Spacer(modifier = Modifier.height(Size40dp))
 

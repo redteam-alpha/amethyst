@@ -3094,6 +3094,8 @@
     <string name="profile_card_bot">Bot</string>
     <string name="about_legal">About &amp; Legal</string>
     <string name="accent_color_blue">Blue</string>
+    <string name="droidstr_wordmark" translatable="false">DROIDSTR</string>
+    <string name="accent_color_droidstr">Droidstr red and gold</string>
     <string name="accent_color_green">Green</string>
     <string name="accent_color_orange">Orange</string>
     <string name="accent_color_pink">Pink</string>
