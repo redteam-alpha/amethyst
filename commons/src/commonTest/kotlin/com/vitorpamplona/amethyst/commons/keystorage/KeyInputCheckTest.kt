@@ -62,7 +62,10 @@ class KeyInputCheckTest {
         val nsec = "nsec1vl029mgpspedva04g90vltkh6fvh240zqtv9k0t9af8935ke9laqsnlfe5"
         assertIs<KeyInputCheck.PrivateKey>(KeyInputCheck.check(nsec))
         assertEquals(KeyInputCheck.BadNsec, KeyInputCheck.check(nsec.dropLast(1)))
+        assertEquals(KeyInputCheck.BadNsec, KeyInputCheck.check(nsec.dropLast(2)))
         assertEquals(KeyInputCheck.PublicKeyOnly(npub), KeyInputCheck.check(npub))
+        assertEquals(KeyInputCheck.None, KeyInputCheck.check(npub.dropLast(1)))
+        assertEquals(KeyInputCheck.None, KeyInputCheck.check(npub.dropLast(2)))
         assertEquals(KeyInputCheck.None, KeyInputCheck.check("ncryptsec1qgg9947rlpvqu76pj5ecreduf9jxhselq2nae2kghhvd5g7dgjtcxfqtd67p9m0w57lspw8gsq6yphnm8623nsl8xn9j4jdzz84zm3frztj3z7s35vpzmqf6ksu8r89qk5z2zxfmu5gv8th8wclt0h4p"))
         assertEquals(KeyInputCheck.None, KeyInputCheck.check(""))
     }

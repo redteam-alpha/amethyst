@@ -71,11 +71,17 @@ sealed interface KeyInputCheck {
             val text = input.trim().removePrefix("nostr:")
             if (text.isEmpty()) return None
             val lower = text.lowercase()
+            // When a bech32 string doesn't parse, the decoders fall back to reading it as hex, which
+            // doesn't reject non-hex characters, so anything but a 32-byte key is a failed decode.
             return when {
                 lower.startsWith("nsec1") ->
-                    decodePrivateKeyAsHexOrNull(lower)?.let(::privateKey) ?: BadNsec
+                    decodePrivateKeyAsHexOrNull(lower)
+                        ?.takeIf { it.length == HEX_KEY_LENGTH }
+                        ?.let(::privateKey) ?: BadNsec
                 lower.startsWith("npub1") || lower.startsWith("nprofile1") ->
-                    decodePublicKeyAsHexOrNull(lower)?.let { PublicKeyOnly(it.hexToByteArray().toNpub()) } ?: None
+                    decodePublicKeyAsHexOrNull(lower)
+                        ?.takeIf { it.length == HEX_KEY_LENGTH }
+                        ?.let { PublicKeyOnly(it.hexToByteArray().toNpub()) } ?: None
                 lower.startsWith("ncryptsec1") || lower.startsWith("bunker:") || "@" in lower -> None
                 else -> checkHex(lower)
             }
