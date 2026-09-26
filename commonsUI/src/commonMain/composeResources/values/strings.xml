@@ -5368,4 +5368,13 @@
     <string name="paper_backup_done_title">You're backed up</string>
     <string name="paper_backup_done_body">Keep the paper somewhere safe and private. To log in on another device, type in the whole key, starting with “nsec1”.</string>
     <string name="paper_backup_done">Done</string>
+    <!-- Droidstr: live checks on the login key field -->
+    <string name="login_key_hex_progress">%1$d of 64 hex characters</string>
+    <string name="login_key_hex_too_long">%1$d hex characters. A hex private key has exactly 64.</string>
+    <string name="login_key_invalid_characters">Not a hex key: it contains %1$s</string>
+    <string name="login_key_bad_nsec">This nsec is incomplete or has a typo (its checksum doesn't match)</string>
+    <string name="login_key_invalid">Not a valid private key</string>
+    <string name="login_key_private_for">Private key for %1$s</string>
+    <string name="login_key_public_only">Public key only, so this account will be read-only: %1$s</string>
+    <string name="login_key_grouped_label">Your key in groups of four, to compare with your copy:</string>
 </resources>
