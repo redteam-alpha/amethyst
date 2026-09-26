@@ -214,6 +214,10 @@ private fun AccountBackupScreenContent(
                 }
             }
 
+            // Droidstr: handwritten backup with a check that the copy is right.
+            Spacer(modifier = Modifier.height(10.dp))
+            PaperBackupButton(accountViewModel)
+
             Spacer(modifier = Modifier.height(30.dp))
 
             val content = stringRes(Res.string.account_backup_tips3_md)

@@ -5351,4 +5351,21 @@
     <string name="cyberspace_bag_unsigned">Unsigned, so this author is a claim</string>
     <string name="cyberspace_bag_unknown_kind">An item of kind %1$d, which this client does not draw</string>
     <string name="cyberspace_bag_opaque">%1$d bytes of something this client does not read</string>
+    <!-- Droidstr: handwritten (paper) key backup -->
+    <string name="paper_backup_write_it_down">Write it down</string>
+    <string name="paper_backup_write_it_down_description">Shows your secret key in large numbered groups to copy onto paper</string>
+    <string name="paper_backup_title">Paper backup</string>
+    <string name="paper_backup_intro">Copy your secret key onto paper and keep it somewhere safe, like a passport. Start with “nsec1”, then write the numbered groups in order. When you type it in later, leave out the spaces and numbers.</string>
+    <string name="paper_backup_reading_tips">Only lowercase letters and digits are used. “0” is always zero and “l” is always a lowercase L; the letters b, i and o and the digit 1 never appear after “nsec1”. A built-in checksum catches most copying mistakes when you log in.</string>
+    <string name="paper_backup_written_it_down">I've written down all %1$d groups</string>
+    <string name="paper_backup_check_my_copy">Next: check my copy</string>
+    <string name="paper_backup_verify_title">Check your copy</string>
+    <string name="paper_backup_verify_body">Without looking back at the screen, type these two groups from your paper.</string>
+    <string name="paper_backup_group_label">Group %1$s</string>
+    <string name="paper_backup_mismatch">That doesn't match. Look at your paper carefully; if a group is wrong there, go back and fix it.</string>
+    <string name="paper_backup_check">Check</string>
+    <string name="paper_backup_show_again">Show my key again</string>
+    <string name="paper_backup_done_title">You're backed up</string>
+    <string name="paper_backup_done_body">Keep the paper somewhere safe and private. To log in on another device, type in the whole key, starting with “nsec1”.</string>
+    <string name="paper_backup_done">Done</string>
 </resources>
