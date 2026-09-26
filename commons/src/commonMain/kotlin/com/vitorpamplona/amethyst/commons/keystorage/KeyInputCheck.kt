@@ -81,6 +81,15 @@ sealed interface KeyInputCheck {
             }
         }
 
+        /**
+         * A 64-character hex private key typed with spaces (in groups), padding or capitals, as the
+         * plain lowercase hex the login code expects; null for anything else, which is passed on as is.
+         */
+        fun normalizedHexKey(input: String): String? {
+            val compact = input.filterNot { it.isWhitespace() }.lowercase()
+            return compact.takeIf { it.length == HEX_KEY_LENGTH && it.all { c -> c in '0'..'9' || c in 'a'..'f' } }
+        }
+
         /** The key as groups of four characters, for reading it back against a written copy. */
         fun grouped(input: String): String =
             input

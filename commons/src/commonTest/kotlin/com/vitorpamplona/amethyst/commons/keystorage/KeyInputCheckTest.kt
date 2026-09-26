@@ -68,6 +68,15 @@ class KeyInputCheckTest {
     }
 
     @Test
+    fun spacedHexKeysAreNormalisedForLogin() {
+        assertEquals(secret, KeyInputCheck.normalizedHexKey(" " + KeyInputCheck.grouped(secret).uppercase() + "\n"))
+        assertEquals(null, KeyInputCheck.normalizedHexKey(secret.dropLast(1)))
+        // Seed words and nsecs are left alone.
+        assertEquals(null, KeyInputCheck.normalizedHexKey("abandon ability able about above absent"))
+        assertEquals(null, KeyInputCheck.normalizedHexKey("nsec1vl029mgpspedva04g90vltkh6fvh240zqtv9k0t9af8935ke9laqsnlfe5"))
+    }
+
+    @Test
     fun groupsOfFour() {
         assertEquals("b7e1 5162 8aed", KeyInputCheck.grouped("b7e15162 8aed"))
     }

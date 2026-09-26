@@ -28,6 +28,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import com.vitorpamplona.amethyst.BuildConfig
+import com.vitorpamplona.amethyst.commons.keystorage.KeyInputCheck
 import com.vitorpamplona.amethyst.commons.resources.Res
 import com.vitorpamplona.amethyst.commons.resources.invalid_key
 import com.vitorpamplona.amethyst.commons.resources.invalid_key_with_message
@@ -162,7 +163,8 @@ class LoginViewModel : ViewModel() {
         if (checkCanLogin()) {
             processingLogin = true
             accountSessionManager.login(
-                key = key.text,
+                // Droidstr: accept a hex key typed in groups or with stray spaces, as the key check shows it.
+                key = KeyInputCheck.normalizedHexKey(key.text) ?: key.text,
                 password = password.text,
                 transientAccount = isTemporary,
             ) {
