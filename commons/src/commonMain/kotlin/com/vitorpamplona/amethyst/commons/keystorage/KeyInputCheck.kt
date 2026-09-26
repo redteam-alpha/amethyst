@@ -59,6 +59,19 @@ sealed interface KeyInputCheck {
         val npub: String,
     ) : KeyInputCheck
 
+    /**
+     * An nsec that only decodes after reading look-alike characters the way nsecs use them ("1" and
+     * "i" as "l", "o" as "0"), which is how it will be logged in; the copy should still be fixed.
+     */
+    data class PrivateKeyWithLookAlikes(
+        val npub: String,
+    ) : KeyInputCheck
+
+    /** An nsec with characters bech32 never uses after "nsec1" (1, b, i, o) that doesn't decode even when read as look-alikes. */
+    data class NsecLookAlikes(
+        val characters: String,
+    ) : KeyInputCheck
+
     /** An npub or nprofile: logs in read-only. */
     data class PublicKeyOnly(
         val npub: String,
@@ -66,19 +79,21 @@ sealed interface KeyInputCheck {
 
     companion object {
         const val HEX_KEY_LENGTH = 64
+        private const val NSEC_PREFIX = "nsec1"
+
+        // Characters bech32 leaves out because they're easy to confuse, and what they most likely are.
+        private const val NOT_BECH32 = "1bio"
+        private val LOOK_ALIKES = mapOf('1' to 'l', 'i' to 'l', 'o' to '0')
 
         fun check(input: String): KeyInputCheck {
             val text = input.trim().removePrefix("nostr:")
             if (text.isEmpty()) return None
             val lower = text.lowercase()
-            // When a bech32 string doesn't parse, the decoders fall back to reading it as hex, which
-            // doesn't reject non-hex characters, so anything but a 32-byte key is a failed decode.
+            val compact = lower.filterNot { it.isWhitespace() }
             return when {
-                lower.startsWith("nsec1") ->
-                    decodePrivateKeyAsHexOrNull(lower)
-                        ?.takeIf { it.length == HEX_KEY_LENGTH }
-                        ?.let(::privateKey) ?: BadNsec
+                compact.startsWith(NSEC_PREFIX) -> checkNsec(compact)
                 lower.startsWith("npub1") || lower.startsWith("nprofile1") ->
+                    // As with nsecs (see decodeNsec), only a 32-byte result is a successful decode.
                     decodePublicKeyAsHexOrNull(lower)
                         ?.takeIf { it.length == HEX_KEY_LENGTH }
                         ?.let { PublicKeyOnly(it.hexToByteArray().toNpub()) } ?: None
@@ -96,6 +111,18 @@ sealed interface KeyInputCheck {
             return compact.takeIf { it.length == HEX_KEY_LENGTH && it.all { c -> c in '0'..'9' || c in 'a'..'f' } }
         }
 
+        /**
+         * What to hand to the login code: a hex key without spaces or capitals, or an nsec without spaces
+         * and with look-alike characters read as nsecs use them, when that makes it decode. Anything else
+         * is passed on as typed.
+         */
+        fun loginKey(input: String): String {
+            normalizedHexKey(input)?.let { return it }
+            val compact = input.trim().removePrefix("nostr:").filterNot { it.isWhitespace() }.lowercase()
+            if (!compact.startsWith(NSEC_PREFIX)) return input
+            return listOf(compact, withoutLookAlikes(compact)).firstOrNull { decodeNsec(it) != null } ?: input
+        }
+
         /** The key as groups of four characters, for reading it back against a written copy. */
         fun grouped(input: String): String =
             input
@@ -103,6 +130,25 @@ sealed interface KeyInputCheck {
                 .filterNot { it.isWhitespace() }
                 .chunked(4)
                 .joinToString(" ")
+
+        private fun checkNsec(nsec: String): KeyInputCheck {
+            decodeNsec(nsec)?.let { return privateKey(it) }
+            val body = nsec.removePrefix(NSEC_PREFIX)
+            val lookAlikes = body.filter { it in NOT_BECH32 }.toSet()
+            if (lookAlikes.isEmpty()) return BadNsec
+            decodeNsec(withoutLookAlikes(nsec))?.let { hex ->
+                val key = privateKey(hex)
+                if (key is PrivateKey) return PrivateKeyWithLookAlikes(key.npub)
+            }
+            return NsecLookAlikes(lookAlikes.joinToString(" "))
+        }
+
+        private fun withoutLookAlikes(nsec: String): String =
+            NSEC_PREFIX + nsec.removePrefix(NSEC_PREFIX).map { LOOK_ALIKES[it] ?: it }.joinToString("")
+
+        // When a bech32 string doesn't parse, the decoder falls back to reading it as hex, which doesn't
+        // reject non-hex characters, so anything but a 32-byte key is a failed decode.
+        private fun decodeNsec(nsec: String): String? = decodePrivateKeyAsHexOrNull(nsec)?.takeIf { it.length == HEX_KEY_LENGTH }
 
         private fun checkHex(text: String): KeyInputCheck {
             // Spaces are allowed so a key copied in groups can be checked too.

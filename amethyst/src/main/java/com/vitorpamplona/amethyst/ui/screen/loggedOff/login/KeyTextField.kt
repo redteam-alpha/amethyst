@@ -61,6 +61,8 @@ import com.vitorpamplona.amethyst.commons.resources.login_key_hex_progress
 import com.vitorpamplona.amethyst.commons.resources.login_key_hex_too_long
 import com.vitorpamplona.amethyst.commons.resources.login_key_invalid
 import com.vitorpamplona.amethyst.commons.resources.login_key_invalid_characters
+import com.vitorpamplona.amethyst.commons.resources.login_key_look_alikes
+import com.vitorpamplona.amethyst.commons.resources.login_key_look_alikes_fixed
 import com.vitorpamplona.amethyst.commons.resources.login_key_private_for
 import com.vitorpamplona.amethyst.commons.resources.login_key_public_only
 import com.vitorpamplona.amethyst.commons.resources.login_with_qr_code
@@ -165,6 +167,8 @@ private fun KeyInputFeedback(
             KeyInputCheck.BadNsec -> stringRes(Res.string.login_key_bad_nsec) to true
             KeyInputCheck.InvalidKey -> stringRes(Res.string.login_key_invalid) to true
             is KeyInputCheck.PrivateKey -> stringRes(Res.string.login_key_private_for, shortNpub(check.npub)) to false
+            is KeyInputCheck.PrivateKeyWithLookAlikes -> stringRes(Res.string.login_key_look_alikes_fixed, shortNpub(check.npub)) to false
+            is KeyInputCheck.NsecLookAlikes -> stringRes(Res.string.login_key_look_alikes, check.characters) to true
             is KeyInputCheck.PublicKeyOnly -> stringRes(Res.string.login_key_public_only, shortNpub(check.npub)) to false
         }
     if (message != null) {

@@ -163,8 +163,9 @@ class LoginViewModel : ViewModel() {
         if (checkCanLogin()) {
             processingLogin = true
             accountSessionManager.login(
-                // Droidstr: accept a hex key typed in groups or with stray spaces, as the key check shows it.
-                key = KeyInputCheck.normalizedHexKey(key.text) ?: key.text,
+                // Droidstr: accept a key typed in groups, and an nsec with look-alikes ("1" for "l"),
+                // as the key check shows it.
+                key = KeyInputCheck.loginKey(key.text),
                 password = password.text,
                 transientAccount = isTemporary,
             ) {

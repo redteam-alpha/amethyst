@@ -71,6 +71,31 @@ class KeyInputCheckTest {
     }
 
     @Test
+    fun nsecLookAlikesAreReadAsNsecCharacters() {
+        val nsec = "nsec1vl029mgpspedva04g90vltkh6fvh240zqtv9k0t9af8935ke9laqsnlfe5"
+        val npub = (KeyInputCheck.check(nsec) as KeyInputCheck.PrivateKey).npub
+        // Written down with "1" for "l" and "o" for "0", then typed in groups from the paper.
+        val misread = "nsec1" + nsec.removePrefix("nsec1").replace('l', '1').replace('0', 'o')
+        val typed = KeyInputCheck.grouped(misread)
+        assertEquals(KeyInputCheck.PrivateKeyWithLookAlikes(npub), KeyInputCheck.check(typed))
+        assertEquals(nsec, KeyInputCheck.loginKey(typed))
+        // A correct nsec typed in groups logs in too.
+        assertEquals(KeyInputCheck.PrivateKey(npub), KeyInputCheck.check(KeyInputCheck.grouped(nsec)))
+        assertEquals(nsec, KeyInputCheck.loginKey(KeyInputCheck.grouped(nsec)))
+        // "b" has no single look-alike, so it's named rather than guessed.
+        val withB = nsec.replaceFirst('q', 'b')
+        assertEquals(KeyInputCheck.NsecLookAlikes("b"), KeyInputCheck.check(withB))
+        assertEquals(withB, KeyInputCheck.loginKey(withB))
+    }
+
+    @Test
+    fun otherLoginInputIsPassedOnAsTyped() {
+        assertEquals("bunker://abc?relay=wss://r", KeyInputCheck.loginKey("bunker://abc?relay=wss://r"))
+        assertEquals("alice@example.com", KeyInputCheck.loginKey("alice@example.com"))
+        assertEquals(secret, KeyInputCheck.loginKey(KeyInputCheck.grouped(secret).uppercase()))
+    }
+
+    @Test
     fun spacedHexKeysAreNormalisedForLogin() {
         assertEquals(secret, KeyInputCheck.normalizedHexKey(" " + KeyInputCheck.grouped(secret).uppercase() + "\n"))
         assertEquals(null, KeyInputCheck.normalizedHexKey(secret.dropLast(1)))

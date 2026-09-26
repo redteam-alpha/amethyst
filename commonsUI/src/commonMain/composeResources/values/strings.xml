@@ -5376,5 +5376,7 @@
     <string name="login_key_invalid">Not a valid private key</string>
     <string name="login_key_private_for">Private key for %1$s</string>
     <string name="login_key_public_only">Public key only, so this account will be read-only: %1$s</string>
+    <string name="login_key_look_alikes_fixed">Private key for %1$s. Your copy has a “1” where the key has a lowercase “l”, or an “o” where it has a zero; Droidstr reads it correctly, but fix your paper so it works in other apps.</string>
+    <string name="login_key_look_alikes">An nsec never contains 1, b, i or o after “nsec1”, but this has: %1$s. A “1” is probably a lowercase “l” and an “o” a zero.</string>
     <string name="login_key_grouped_label">Your key in groups of four, to compare with your copy:</string>
 </resources>
